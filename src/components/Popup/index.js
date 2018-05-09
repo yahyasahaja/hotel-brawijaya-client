@@ -10,8 +10,20 @@ import styles from './css/index-popup.scss'
 export const ANIMATE_HORIZONTAL = 'animateHorizontal'
 export const ANIMATE_VERTICAL = 'animateVertical'
 
+//STORE
+import { appStack } from '../../services/stores'
+
 //COMPONENT
 @observer class Popup extends Component {
+  constructor(props) {
+    super(props)
+    this.id = appStack.push()
+  }
+
+  componentWillUnmount() {
+    appStack.pop()
+  }
+
   componentDidMount() {
     window.addEventListener('scroll', this.checkScroll)
     window.addEventListener('gesturechange', this.checkScroll)
@@ -97,6 +109,10 @@ export const ANIMATE_VERTICAL = 'animateVertical'
     let style, contentStyle, animClassName
     if (!anim) style = {
       opacity: 1
+    }
+
+    if (appStack.isAtTop(this.id)) {
+      onTop = true
     }
 
     if (onTop === false) style = {
