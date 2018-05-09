@@ -1,0 +1,135 @@
+@import '../../../assets/css/config.scss';
+
+.container {
+  display: block;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  top: 0;
+  margin: auto;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  background: white;
+  z-index: 2;
+
+  .bar {
+    position: fixed;
+    top: 0;
+    margin: auto;
+    width: 100%;
+    max-width: 480px;
+    font-size: 20pt;
+    background: #f8f8f8;
+    border-bottom: 1px solid #e1e1e1;
+    color: #9c9c9c;
+    z-index: 2;
+
+    .bar-wrapper {
+      width: 100%;
+      padding: 8px 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .back {
+        display: block;
+        cursor: pointer;
+        padding: 0 10px;
+        color: #5a5a5a;
+      }
+  
+      .title {
+        color: #5a5a5a;
+        font-size: 15pt;
+        font-weight: 500;
+        margin-left: 10px;
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @media screen and (max-width: 400px) {
+          font-size: 12pt;
+        }
+        
+        span {
+          flex: 1;
+          display: inline-block;
+          width: 50px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          font-size: 15pt;
+        }
+      }
+  
+      .right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  
+        .cart, .cart:visited {
+          position: absolute;
+          width: 60px;
+          font-size: 20pt;
+          top: 0;
+          right: 0;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: $secondary-color;
+      
+          &:active {
+            opacity: .3;
+          }
+        }
+      }
+    }
+  }
+  
+  .content {
+    width: 100%;
+    padding: 10px;
+    background: white;
+    padding-top: 55px;
+    min-height: 100vh;
+  }
+}
+
+.appear {
+  opacity: 1 !important;
+  top: 0 !important;
+  transition: .5s;
+}
+
+.hide {
+  opacity: 0 !important;
+  top: -100% !important;
+  transition: .5s;
+}
+
+.animate-vertical {
+  animation-name: verticalAnimation;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  animation-duration: .2s;
+}
+
+.animate-horizontal {
+  animation-name: horizontalAnimation;
+  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  animation-fill-mode: forwards;
+  animation-duration: .2s;
+}
+
+@keyframes verticalAnimation {
+  0% {opacity: 0; top: 50px}
+  100% {opacity: 1; top: 0}
+}
+
+@keyframes horizontalAnimation {
+  0% {opacity: 0; margin-left: 100%}
+  100% {opacity: 1; margin-left: 0}
+}
