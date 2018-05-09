@@ -1,6 +1,6 @@
 //MODULES
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { observer } from 'mobx-react'
 
 //STYLES
@@ -156,4 +156,4 @@ import { appStack } from '../../services/stores'
   }
 } 
 
-export default Popup
+export default withRouter(Popup)

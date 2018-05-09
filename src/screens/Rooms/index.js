@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import styles from './css/index-room.scss'
 
 //COMPONENTS
-import Popup from '../../components/Popup'
+import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
 
 //COMPONENT
 export default class Room extends Component {
@@ -13,6 +13,8 @@ export default class Room extends Component {
     return (
       <Popup
         title="Order Room"
+        backLink="/home"
+        anim={ANIMATE_HORIZONTAL}
       >
         <span>hi</span>
       </Popup>
