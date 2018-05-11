@@ -9,6 +9,7 @@ import Dialog from 'react-toolbox/lib/dialog'
 import asyncComponent from './components/AsyncComponent'
 const Home = asyncComponent(() => import('./screens/Home'))
 const Rooms = asyncComponent(() => import('./screens/Rooms'))
+const Customer = asyncComponent(() => import('./screens/Customer'))
 
 //STYLES
 import styles from './assets/css/app-router.scss'
@@ -65,6 +66,7 @@ import { dialog } from './services/stores'
             <Route path="/home" component={Home} />
             <Redirect from="/order" exact to="/order/rooms" />
             <Route path="/order/rooms" component={Rooms} />
+            <Route path="/order/customer" component={Customer} />
           </Switch>
 
           <section>
