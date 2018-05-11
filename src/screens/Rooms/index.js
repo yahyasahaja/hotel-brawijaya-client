@@ -9,6 +9,7 @@ import styles from './css/index-rooms.scss'
 
 //COMPONENTS
 import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
+import ButtonBottom from '../../components/ButtonBottom'
 
 //INNER CONFIG
 const availableDuration = []
@@ -155,6 +156,10 @@ export default class Room extends Component {
             } value='deluxe'/>
           </RadioGroup>
         </div>
+        <ButtonBottom 
+            link="/order/customer"
+            name="GO"
+        />
       </Popup>
     )
   }
