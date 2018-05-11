@@ -10,8 +10,12 @@ import ButtonBottom from '../../components/ButtonBottom'
 
 export default class componentName extends Component {
   state = {
-    nama: 'Full Name',
+    nama: '',
     phone: ''
+  }
+
+  handleChange = (name, value) => {
+    this.setState({...this.state, [name]: value});
   }
 
   render() {
@@ -21,13 +25,33 @@ export default class componentName extends Component {
         backLink="/order/rooms"
         anim={ANIMATE_HORIZONTAL}
       >
-        {/* <Input 
-          type='text' 
-          label='Name' 
-          name='nama' 
-          value={this.state.nama} 
-          onChange={this.handleChange.bind(this, 'nama')} 
-          maxLength={16} /> */}
+        <div className={styles.container} >
+          <h3>
+            Please complete the following fields
+          </h3>
+          <Input
+            className={styles.input} 
+            type='text' 
+            label='Full Name' 
+            name='nama' 
+            value={this.state.nama} 
+            onChange={this.handleChange.bind(this, 'nama')} 
+            maxLength={21}
+            required />
+
+          <Input 
+            type='text' 
+            label='Phone Number' 
+            name='phone' 
+            value={this.state.phone} 
+            onChange={this.handleChange.bind(this, 'phone')} 
+            maxLength={12} 
+            required />
+        </div>
+        <ButtonBottom 
+            link="/order/checkout"
+            name="GO"
+        />
       </Popup>
     )
   }
