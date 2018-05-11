@@ -63,97 +63,68 @@ export default class Room extends Component {
     console.log(styles)
     return (
       <Popup
-        title="Order Room"
+        title="Checkout"
         backLink="/home"
         anim={ANIMATE_HORIZONTAL}
       >
         <div className={styles.container}>
-          <DatePicker 
-            label='Check In' 
-            onChange={this.handleChange.bind(this, 'checkIn')} 
-            value={this.state.checkIn} 
-            minDate={new Date(Date.now() + 86400000)}
-            maxDate={new Date(Date.now() + 2592000000)}
-            required
-          />
-
-          <Dropdown
-            label="Duration"
-            onChange={this.handleChange.bind(this, 'duration')}
-            source={availableDuration}
-            value={this.state.duration}
-            required
-          />
 
           <div className={styles.horizontal}>
-            <Dropdown
-              label="Adult"
-              onChange={this.handleChange.bind(this, 'adults')}
-              source={availableAdults}
-              value={this.state.adults}
-              required
-            />
+            <div >
+              <h5 className ={styles.judul}>Full Name</h5>
+              <h2 className ={styles.nilai}>Coffee Script</h2>
+            </div>
 
-            <Dropdown
-              label="Children"
-              onChange={this.handleChange.bind(this, 'children')}
-              source={availableChildren}
-              value={this.state.children}
-              required
-            />
+            <div >
+              <h5 className ={styles.judul}>Phone Number</h5>
+              <h2 className ={styles.nilai}>081363363363</h2>
+            </div>
           </div>
 
           <div className={styles.horizontal}>
-          <Dropdown
-              label="Rooms"
-              onChange={this.handleChange.bind(this, 'rooms')}
-              source={this.state.availableRooms}
-              value={this.state.rooms}
-              disabled={this.state.rooms === null}
-              required
-            />
+            <div >
+              <h5 className ={styles.judul}>Check-in Date</h5>
+              <h2>9 Mei 2018</h2>
+            </div>
 
-            <Dropdown
-              label="Extra Beds"
-              onChange={this.handleChange.bind(this, 'beds')}
-              source={this.state.availableBeds}
-              disabled={this.state.beds === null}
-              value={this.state.beds}
-              required
-            />
+            <div >
+              <h5 className ={styles.judul}>Check-out Date</h5>
+              <h2>11 Mei 2018</h2>
+            </div>
+
+            <div >
+              <h5 className ={styles.judul}>Duration</h5>
+              <h2>2 night(2)</h2>
+            </div>
           </div>
 
-          <RadioGroup 
-            name='Room Type' 
-            value={this.state.type} 
-            onChange={this.handleChange.bind(this, 'type')}
-          >
-            <RadioButton label={
-              <div className={styles.list}>
-                <div className={styles.image} >
-                  <img src="/static/img/app_store_badge.svg" />
-                </div>
+          
+          <div className={styles.horizontal}>
+            <div >
+              <h5 className ={styles.judul}>Adult</h5>
+              <h2>1</h2>
+            </div>
 
-                <div className={styles.desc} >
-                  <span className={styles.title} >Superior</span>
-                  <span className={styles.title} >Rp 400.000/night</span>
-                </div>
-              </div>
-            } value='superior'/>
+            <div >
+              <h5 className ={styles.judul}>Child</h5>
+              <h2>0</h2>
+            </div>
 
-            <RadioButton label={
-              <div className={styles.list}>
-                <div className={styles.image} >
-                  <img src="/static/img/app_store_badge.svg" />
-                </div>
+            <div >
+              <h5 className ={styles.judul}>Room(r) & Extra Bed(s)</h5>
+              <h2>1 room(s), 0 Extra Bed(s)</h2>
+            </div>
+          </div>
+          
+          <div className={styles.horizontal}>
+            <img src="" />
 
-                <div className={styles.desc} >
-                  <span className={styles.title} >Deluxe</span>
-                  <span className={styles.title} >Rp 600.000/night</span>
-                </div>
-              </div>
-            } value='deluxe'/>
-          </RadioGroup>
+
+            <div>
+              <h4>Superior</h4>
+              <h3>Rp 400.000/night</h3>
+            </div>
+          </div>
         </div>
       </Popup>
     )
