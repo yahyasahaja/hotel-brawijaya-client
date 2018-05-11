@@ -28,8 +28,8 @@
   ],
   "start_url": "/home",
   "display": "standalone",
-  "background_color": "#ea0f00",
-  "theme_color": "#ea0f00",
+  "background_color": "#076645",
+  "theme_color": "#076645",
   "gcm_sender_id_comment": "OneSignal WPN, Do Not Change ID",
   "gcm_sender_id": "519393577988"
 }

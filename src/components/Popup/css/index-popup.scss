@@ -21,9 +21,9 @@
     width: 100%;
     max-width: 480px;
     font-size: 20pt;
-    background: #f8f8f8;
+    background: $primary-color;
     border-bottom: 1px solid #e1e1e1;
-    color: #9c9c9c;
+    color: white;
     z-index: 2;
 
     .bar-wrapper {
@@ -37,11 +37,11 @@
         display: block;
         cursor: pointer;
         padding: 0 10px;
-        color: #5a5a5a;
+        color: white;
       }
   
       .title {
-        color: #5a5a5a;
+        color: white;
         font-size: 15pt;
         font-weight: 500;
         margin-left: 10px;
