@@ -1,0 +1,23 @@
+@import '../../../assets/css/config.scss';
+
+.container {
+  display: block;
+  padding: 20px;
+
+  .horizontal {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .judul{
+    color: #aaaaaa;
+    margin-bottom: -2;
+  }
+  
+  .nilai{
+    margin-top: -10;
+  }
+}
+
+
+
