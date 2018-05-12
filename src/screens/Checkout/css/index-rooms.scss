@@ -15,7 +15,7 @@
     justify-content: flex-start;
 
     .imageRoom {
-      width: 100px;
+      min-width: 100px;
       height: 100px;
       padding-right: 20px;
     }
@@ -35,6 +35,16 @@
   .nilai{
     margin-top: -10;
   }
+}
+
+.bottom{
+  width: 50px;
+}
+.empty{
+  height: 30px;
+}
+.top{
+  width: 100px;
 }
 
 

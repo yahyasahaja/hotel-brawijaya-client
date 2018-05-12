@@ -13,6 +13,7 @@ import ButtonBottom from '../../components/ButtonBottom'
 
 //COMPONENT
 export default class Room extends Component {
+  
   state = {
     name: 'Coffe Script',
     phone: '085851851276',
@@ -24,7 +25,7 @@ export default class Room extends Component {
     room: '1',
     extraBed: '0',
     typeRoom: [
-      "/static/img/app_store_badge.svg",
+      "/static/img/deluxe.jpg",
       "Superior",
       "400.000"
     ],
@@ -32,6 +33,7 @@ export default class Room extends Component {
   }
 
   render() {
+    adults : "asdf";
     console.log(styles)
     return (
       <Popup
@@ -42,6 +44,8 @@ export default class Room extends Component {
         <div className={styles.container}>
 
           <div className={styles.horizontal}>
+            <div style={{width : 1 }}></div>
+
             <div >
               <h5 className ={styles.judul}>Full Name</h5>
               <h2 className ={styles.nilai}>{this.state.name}</h2>
@@ -51,6 +55,8 @@ export default class Room extends Component {
               <h5 className ={styles.judul}>Phone Number</h5>
               <h2 className ={styles.nilai}>{this.state.phone}</h2>
             </div>
+
+            <div className={styles.top}></div>
           </div>
 
           <div className={styles.horizontal}>
@@ -87,6 +93,10 @@ export default class Room extends Component {
               <h2>{this.state.room} room(s), {this.state.extraBed} Extra Bed(s)</h2>
             </div>
           </div>
+
+          <div className={styles.horizontal}>
+            <div className={styles.empty}></div>
+          </div>
           
           <div className={styles.typeRoom} >
             <img src={this.state.typeRoom[0]} className={styles.imageRoom} />
@@ -101,7 +111,10 @@ export default class Room extends Component {
               <h5 className ={styles.judul}>Total Price</h5>
               <h2>Rp. {this.state.totalPrice}</h2>
             </div>
+
+            <div className={styles.bottom}></div>
           </div>
+
         </div>
         <ButtonBottom 
             link="/order/invoice"
