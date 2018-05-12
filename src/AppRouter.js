@@ -11,6 +11,8 @@ const Home = asyncComponent(() => import('./screens/Home'))
 const Rooms = asyncComponent(() => import('./screens/Rooms'))
 const Checkout = asyncComponent(() => import('./screens/Checkout'))
 const Customer = asyncComponent(() => import('./screens/Customer'))
+const Payment = asyncComponent(() => import('./screens/Payment'))
+const Invoice = asyncComponent(() => import('./screens/Invoice'))
 
 //STYLES
 import styles from './assets/css/app-router.scss'
@@ -69,6 +71,8 @@ import { dialog } from './services/stores'
             <Route path="/order/rooms" component={Rooms} />
             <Route path="/order/checkout" component={Checkout} />
             <Route path="/order/customer" component={Customer} />
+            <Route path="/order/payment" component={Payment} />
+            <Route path="/order/invoice" component={Invoice} />
           </Switch>
 
           <section>

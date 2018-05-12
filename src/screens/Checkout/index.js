@@ -117,7 +117,7 @@ export default class Room extends Component {
 
         </div>
         <ButtonBottom 
-            link="/order/invoice"
+            link="/order/payment"
             name="GO"
         />
       </Popup>
