@@ -22,16 +22,19 @@ for (let i = 1; i <= 15; i++) availableChildren.push({value: i, label: `${i} chi
 
 //COMPONENT
 export default class Room extends Component {
+  
   state = {
-    checkIn: new Date(Date.now() + 86400000),
-    duration: '',
-    adults: '',
-    children: '',
-    rooms: null,
-    beds: null,
-    availableRooms: [],
-    availableBeds: [],
-    type: null,
+    fullName : "Coffee Script",
+    phoneNumber : "081363363363",
+    checkIn: "9 Mei 2018",
+    checkOut: "11 Mei 2018",
+    duration: 2,
+    adults: 1,
+    children: 0,
+    rooms: 1,
+    extraBeds: 0,
+    type: "Superior",
+    harga: "400.000", 
   }
 
   handleChange = (item, value) => {
@@ -60,6 +63,7 @@ export default class Room extends Component {
   }
 
   render() {
+    adults : "asdf";
     console.log(styles)
     return (
       <Popup
@@ -70,31 +74,35 @@ export default class Room extends Component {
         <div className={styles.container}>
 
           <div className={styles.horizontal}>
+            <div style={{width : 1 }}></div>
+
             <div >
               <h5 className ={styles.judul}>Full Name</h5>
-              <h2 className ={styles.nilai}>Coffee Script</h2>
+              <h2 className ={styles.nilai}>{this.state.fullName}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Phone Number</h5>
-              <h2 className ={styles.nilai}>081363363363</h2>
+              <h2 className ={styles.nilai}>{this.state.phoneNumber}</h2>
             </div>
+
+            <div className={styles.top}></div>
           </div>
 
           <div className={styles.horizontal}>
             <div >
               <h5 className ={styles.judul}>Check-in Date</h5>
-              <h2>9 Mei 2018</h2>
+              <h2>{this.state.checkIn}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Check-out Date</h5>
-              <h2>11 Mei 2018</h2>
+              <h2>{this.state.checkOut}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Duration</h5>
-              <h2>2 night(2)</h2>
+              <h2>{this.state.duration} night(s)</h2>
             </div>
           </div>
 
@@ -102,29 +110,40 @@ export default class Room extends Component {
           <div className={styles.horizontal}>
             <div >
               <h5 className ={styles.judul}>Adult</h5>
-              <h2>1</h2>
+              <h2>{this.state.adults}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Child</h5>
-              <h2>0</h2>
+              <h2>{this.state.children}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Room(r) & Extra Bed(s)</h5>
-              <h2>1 room(s), 0 Extra Bed(s)</h2>
+              <h2>{this.state.rooms} room(s),{this.state.extraBeds} Extra Bed(s)</h2>
             </div>
+          </div>
+
+          <div className={styles.horizontal}>
+            <div className={styles.empty}></div>
           </div>
           
           <div className={styles.horizontal}>
-            <img src="" />
+            <img 
+              src="https://firebasestorage.googleapis.com/v0/b/chat-app4.appspot.com/o/profile_photo%2Fimg_AlrrKhADPhcVo7zFwRtmtvCVka02.jpg?alt=media&token=5240e830-af77-4414-9f5f-dde6bdba4209" 
+              height = "100"
+              width = "100"
+            />
 
 
             <div>
-              <h4>Superior</h4>
-              <h3>Rp 400.000/night</h3>
+              <div>{this.state.type}</div>
+              <h3>Rp {this.state.harga}/night</h3>
             </div>
+
+            <div className={styles.bottom}></div>
           </div>
+
         </div>
       </Popup>
     )
