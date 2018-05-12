@@ -33,7 +33,8 @@ export default class componentName extends Component {
             className={styles.input} 
             type='text' 
             label='Full Name' 
-            name='nama' 
+            name='nama'
+            hint='Your Full Name' 
             value={this.state.nama} 
             onChange={this.handleChange.bind(this, 'nama')} 
             maxLength={21}
@@ -42,7 +43,8 @@ export default class componentName extends Component {
           <Input 
             type='text' 
             label='Phone Number' 
-            name='phone' 
+            name='phone'
+            hint='08xxxxxxxxxx' 
             value={this.state.phone} 
             onChange={this.handleChange.bind(this, 'phone')} 
             maxLength={12} 

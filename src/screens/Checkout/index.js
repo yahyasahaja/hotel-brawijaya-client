@@ -9,54 +9,26 @@ import styles from './css/index-rooms.scss'
 
 //COMPONENTS
 import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
-
-//INNER CONFIG
-const availableDuration = []
-for (let i = 1; i <= 30; i++) availableDuration.push({value: i, label: `${i} night(s)`})
-
-const availableAdults = []
-for (let i = 1; i <= 15; i++) availableAdults.push({value: i, label: `${i} guest(s)`})
-
-const availableChildren = []
-for (let i = 1; i <= 15; i++) availableChildren.push({value: i, label: `${i} child(s)`})
+import ButtonBottom from '../../components/ButtonBottom'
 
 //COMPONENT
 export default class Room extends Component {
   state = {
-    checkIn: new Date(Date.now() + 86400000),
-    duration: '',
-    adults: '',
-    children: '',
-    rooms: null,
-    beds: null,
-    availableRooms: [],
-    availableBeds: [],
-    type: null,
-  }
-
-  handleChange = (item, value) => {
-    this.setState({...this.state, [item]: value}, () => {
-      let adults = this.state.adults
-      let children = this.state.children
-
-      if (item === 'adults' || item === 'children') {
-        let availableRooms = []
-        let maxRooms = adults + children
-        let minRooms = Math.max(Math.ceil(adults / 2), Math.ceil(children / 2)) - 1
-        if (minRooms < 1) minRooms = 1
-        for (let i = minRooms; i <= maxRooms; i++) availableRooms.push({value: i, label: `${i} room(s)`})
-        
-        this.setState({availableRooms, availableBeds: [], beds: null, rooms: ''})
-      }
-  
-      if (item === 'rooms') {
-        let availableBeds = []
-        let minBeds = 1
-        let maxBeds = value
-        for (let i = minBeds; i <= maxBeds; i++) availableBeds.push({value: i, label: `${i} bed(s)`})
-        this.setState({availableBeds, beds: ''})
-      }
-    })
+    name: 'Coffe Script',
+    phone: '085851851276',
+    checkIn: '9 Mei 2018',
+    checkOut: '11 Mei 2018',
+    duration: '2',
+    adult: '1',
+    child: '0',
+    room: '1',
+    extraBed: '0',
+    typeRoom: [
+      "/static/img/app_store_badge.svg",
+      "Superior",
+      "400.000"
+    ],
+    totalPrice: '800.000'
   }
 
   render() {
@@ -64,7 +36,7 @@ export default class Room extends Component {
     return (
       <Popup
         title="Checkout"
-        backLink="/home"
+        backLink="/order/customer"
         anim={ANIMATE_HORIZONTAL}
       >
         <div className={styles.container}>
@@ -72,29 +44,29 @@ export default class Room extends Component {
           <div className={styles.horizontal}>
             <div >
               <h5 className ={styles.judul}>Full Name</h5>
-              <h2 className ={styles.nilai}>Coffee Script</h2>
+              <h2 className ={styles.nilai}>{this.state.name}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Phone Number</h5>
-              <h2 className ={styles.nilai}>081363363363</h2>
+              <h2 className ={styles.nilai}>{this.state.phone}</h2>
             </div>
           </div>
 
           <div className={styles.horizontal}>
             <div >
               <h5 className ={styles.judul}>Check-in Date</h5>
-              <h2>9 Mei 2018</h2>
+              <h2>{this.state.checkIn}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Check-out Date</h5>
-              <h2>11 Mei 2018</h2>
+              <h2>{this.state.checkOut}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Duration</h5>
-              <h2>2 night(2)</h2>
+              <h2>{this.state.duration} night(2)</h2>
             </div>
           </div>
 
@@ -102,30 +74,39 @@ export default class Room extends Component {
           <div className={styles.horizontal}>
             <div >
               <h5 className ={styles.judul}>Adult</h5>
-              <h2>1</h2>
+              <h2>{this.state.adult}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Child</h5>
-              <h2>0</h2>
+              <h2>{this.state.child}</h2>
             </div>
 
             <div >
-              <h5 className ={styles.judul}>Room(r) & Extra Bed(s)</h5>
-              <h2>1 room(s), 0 Extra Bed(s)</h2>
+              <h5 className ={styles.judul}>Room(s) & Extra Bed(s)</h5>
+              <h2>{this.state.room} room(s), {this.state.extraBed} Extra Bed(s)</h2>
             </div>
           </div>
           
-          <div className={styles.horizontal}>
-            <img src="" />
-
-
+          <div className={styles.typeRoom} >
+            <img src={this.state.typeRoom[0]} className={styles.imageRoom} />
             <div>
-              <h4>Superior</h4>
-              <h3>Rp 400.000/night</h3>
+              <h4>{this.state.typeRoom[1]}</h4>
+              <h3>Rp {this.state.typeRoom[2]}/night</h3>
+            </div>
+          </div>
+
+          <div className={styles.totalPrice}>
+            <div >
+              <h5 className ={styles.judul}>Total Price</h5>
+              <h2>Rp. {this.state.totalPrice}</h2>
             </div>
           </div>
         </div>
+        <ButtonBottom 
+            link="/order/invoice"
+            name="GO"
+        />
       </Popup>
     )
   }

@@ -9,6 +9,24 @@
     justify-content: space-around;
   }
 
+  .typeRoom {
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+
+    .imageRoom {
+      width: 100px;
+      height: 100px;
+      padding-right: 20px;
+    }
+  }
+
+  .totalPrice {
+    display: flex;
+    justify-content: flex-end;
+    
+  }
+
   .judul{
     color: #aaaaaa;
     margin-bottom: -2;
