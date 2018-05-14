@@ -79,7 +79,7 @@ export default class Room extends Component {
               floatingLabelText='Check In' 
               onChange={this.handleChange.bind(this, 'checkIn')} 
               value={this.state.checkIn} 
-              minDate={new Date()}
+              minDate={new Date(Date.now() + 86400000)}
               maxDate={new Date(Date.now() + 2592000000)}
               required 
             />
