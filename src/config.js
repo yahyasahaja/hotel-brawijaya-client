@@ -1,8 +1,8 @@
-export const PRODUCTS_ENDPOINT_URL = 'http://localhost:5000'
+export const END_POINT_URL = 'https://api.brawijaya-hotel.ngopi.men/'
 
-export const getEndPoint = params => `${IAM_ENDPOINT_URL}${params || ''}`
+export const getEndPoint = params => `${END_POINT_URL}${params || ''}`
 
 export default {
-  PRODUCTS_ENDPOINT_URL,
+  END_POINT_URL,
   getEndPoint
 }
