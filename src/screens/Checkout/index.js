@@ -39,7 +39,7 @@ export default class Room extends Component {
       <Popup
         title="Checkout"
         backLink="/order/customer"
-        anim={ANIMATE_HORIZONTAL}
+        // anim={ANIMATE_HORIZONTAL}
       >
         <div className={styles.container}>
 

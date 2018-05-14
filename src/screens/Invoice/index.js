@@ -14,7 +14,7 @@ export default class Invoice extends Component {
         <Popup
           title="Invoice"
           backLink="/home"
-          anim={ANIMATE_HORIZONTAL}
+          // anim={ANIMATE_HORIZONTAL}
         >
 
           <ButtonBottom 

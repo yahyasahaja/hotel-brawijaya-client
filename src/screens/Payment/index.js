@@ -20,7 +20,7 @@ export default class Payment extends Component {
         <Popup
           title="Payment"
           backLink="/order/checkout"
-          anim={ANIMATE_HORIZONTAL}
+          // anim={ANIMATE_HORIZONTAL}
         >
           <div className={styles.container} >
             <h3>Please transfer to the following <br/>bank account number.</h3>

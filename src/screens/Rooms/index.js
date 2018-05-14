@@ -66,15 +66,15 @@ export default class Room extends Component {
       <Popup
         title="Order Room"
         backLink="/home"
-        anim={ANIMATE_HORIZONTAL}
+        // anim={ANIMATE_HORIZONTAL}
       >
         <div className={styles.container}>
           <DatePicker 
             label='Check In' 
             onChange={this.handleChange.bind(this, 'checkIn')} 
             value={this.state.checkIn} 
-            minDate={new Date(Date.now() + 86400000)}
-            maxDate={new Date(Date.now() + 2592000000)}
+            minDate={new Date(Date.now())}
+            // maxDate={new Date(Date.now() + 2592000000)}
             required
           />
 

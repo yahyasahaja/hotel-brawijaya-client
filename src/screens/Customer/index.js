@@ -23,7 +23,7 @@ export default class componentName extends Component {
       <Popup
         title="Customer Information"
         backLink="/order/rooms"
-        anim={ANIMATE_HORIZONTAL}
+        // anim={ANIMATE_HORIZONTAL}
       >
         <div className={styles.container} >
           <h3>
