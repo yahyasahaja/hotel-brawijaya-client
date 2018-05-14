@@ -1,0 +1,29 @@
+.container {
+  display: block;
+  padding: 20px;
+  text-align: center;
+
+  .horizontal {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .bank {
+    padding-top: 20px;
+  }
+
+  .countdown {
+    padding-top: 40px;
+    font-weight: bold;
+  }
+
+  .price{ 
+    padding-top: 30px;
+    font-size: 16px;
+
+    .totalPrice {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+}
