@@ -3,6 +3,9 @@ import React, { Component } from 'react'
 import DatePicker from 'material-ui/DatePicker'
 import Dropdown from 'react-toolbox/lib/dropdown'
 import { RadioGroup, RadioButton } from 'react-toolbox/lib/radio'
+import Checkbox from 'material-ui/Checkbox'
+import axios from 'axios'
+import moment from 'moment'
 
 //STYLES
 import styles from './css/index-rooms.scss'
@@ -10,6 +13,9 @@ import styles from './css/index-rooms.scss'
 //COMPONENTS
 import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
 import ButtonBottom from '../../components/ButtonBottom'
+
+//CONFIG
+import {getEndPoint} from '../../config'
 
 //INNER CONFIG
 const availableDuration = []
@@ -20,6 +26,7 @@ for (let i = 1; i <= 15; i++) availableAdults.push({value: i, label: `${i} guest
 
 const availableChildren = []
 for (let i = 1; i <= 15; i++) availableChildren.push({value: i, label: `${i} child(s)`})
+window.moment = moment
 
 //COMPONENT
 export default class Room extends Component {
@@ -33,9 +40,11 @@ export default class Room extends Component {
     availableRooms: [],
     availableBeds: [],
     type: null,
+    roomList: [],
+    selectedRooms: []
   }
 
-  handleChange = (item, value) => {
+  handleChange(item, value) {
     this.setState({...this.state, [item]: value}, () => {
       let adults = this.state.adults
       let children = this.state.children
@@ -57,16 +66,87 @@ export default class Room extends Component {
         for (let i = minBeds; i <= maxBeds; i++) availableBeds.push({value: i, label: `${i} bed(s)`})
         this.setState({availableBeds, beds: ''})
       }
+
+      if (item === 'duration' || item === 'rooms') this.updateRoomData()
     })
+  }
+
+  handleMuiChange(item, evt, value) {
+    this.setState({
+      [item]: value
+    }, this.updateRoomData)
+  }
+
+  updateRoomData = async () => {
+    let { checkIn, duration, rooms } = this.state
+    
+    if (!rooms) return
+    if (!checkIn) return
+    let startDate = moment(checkIn).format('YYYY-MM-DD')
+    let endDate = moment(checkIn).add(duration, 'days').format('YYYY-MM-DD')
+
+    let { data } = await axios.get(getEndPoint(`/rooms?start=${startDate}&end=${endDate}`))
+
+    if (!data.data) return
+    let roomList = data.data.map(d => ({...d, checked: false}))
+    this.setState({roomList})
   }
 
   onSubmit = e => {
     e.preventDefault()
+  }
 
+  addRoom = id => {
+    let { roomList, selectedRooms } = this.state
+
+    for (let room of roomList) if (room.id === id) {
+      selectedRooms.push(room)
+      selectedRooms = selectedRooms.slice()
+      this.setState({selectedRooms})
+      break
+    }
+  }
+
+  removeRoom = id => {
+    let { roomList, selectedRooms } = this.state
+
+    for (let i in roomList) if (roomList[i].id === id) {
+      selectedRooms.splice(i, 1)
+      selectedRooms = selectedRooms.slice()
+      this.setState({selectedRooms})
+      break
+    }
+  }
+
+  handleRoomChoosing(id, evt, value) {
+    if (value) return this.addRoom(id)
+    this.removeRoom(id)
+  }
+
+  renderRoomList() {
+    return this.state.roomList.map((data, i) => {
+      return (
+        <Checkbox 
+          key={i}
+          value={data.checked}
+          onCheck={this.handleRoomChoosing.bind(this, i)}
+          label={(
+            <div className={styles.list} >
+              <div className={styles['img-wrapper']} >
+                <img src={`/static/img/${data.type.toLowerCase()}.jpg`} />
+              </div>
+              <div className={styles.text} >
+                <div className={styles.title} >{data.name}</div>
+                <span className={styles.price} >Rp. {data.price}/night</span>
+              </div>
+            </div>
+          )}
+        />
+      )
+    })
   }
 
   render() {
-    console.log(styles)
     return (
       <Popup
         title="Order Room"
@@ -77,7 +157,7 @@ export default class Room extends Component {
           <div className={styles.container}>
             <DatePicker 
               floatingLabelText='Check In' 
-              onChange={this.handleChange.bind(this, 'checkIn')} 
+              onChange={this.handleMuiChange.bind(this, 'checkIn')} 
               value={this.state.checkIn} 
               minDate={new Date(Date.now() + 86400000)}
               maxDate={new Date(Date.now() + 2592000000)}
@@ -129,38 +209,9 @@ export default class Room extends Component {
                 required
               />
             </div>
-
-            <RadioGroup 
-              name='Room Type' 
-              value={this.state.type} 
-              onChange={this.handleChange.bind(this, 'type')}
-            >
-              <RadioButton label={
-                <div className={styles.list}>
-                  <div className={styles.image} >
-                    <img src="/static/img/app_store_badge.svg" />
-                  </div>
-
-                  <div className={styles.desc} >
-                    <span className={styles.title} >Superior</span>
-                    <span className={styles.title} >Rp 400.000/night</span>
-                  </div>
-                </div>
-              } value='superior'/>
-
-              <RadioButton label={
-                <div className={styles.list}>
-                  <div className={styles.image} >
-                    <img src="/static/img/app_store_badge.svg" />
-                  </div>
-
-                  <div className={styles.desc} >
-                    <span className={styles.title} >Deluxe</span>
-                    <span className={styles.title} >Rp 600.000/night</span>
-                  </div>
-                </div>
-              } value='deluxe'/>
-            </RadioGroup>
+            <div className={styles.wrapper} >
+              {this.renderRoomList()}
+            </div>
           </div>
           <ButtonBottom 
             link="/order/customer"
