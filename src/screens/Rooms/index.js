@@ -6,6 +6,7 @@ import { RadioGroup, RadioButton } from 'react-toolbox/lib/radio'
 import Checkbox from 'material-ui/Checkbox'
 import axios from 'axios'
 import moment from 'moment'
+import { observer } from 'mobx-react'
 
 //STYLES
 import styles from './css/index-rooms.scss'
@@ -14,8 +15,8 @@ import styles from './css/index-rooms.scss'
 import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
 import ButtonBottom from '../../components/ButtonBottom'
 
-//CONFIG
-import {getEndPoint} from '../../config'
+//STORE
+import { roomOrder } from '../../services/stores'
 
 //INNER CONFIG
 const availableDuration = []
@@ -29,107 +30,42 @@ for (let i = 1; i <= 15; i++) availableChildren.push({value: i, label: `${i} chi
 window.moment = moment
 
 //COMPONENT
-export default class Room extends Component {
-  state = {
-    checkIn: new Date(Date.now() + 86400000),
-    duration: '',
-    adults: '',
-    children: '',
-    rooms: null,
-    beds: null,
-    availableRooms: [],
-    availableBeds: [],
-    type: null,
-    roomList: [],
-    selectedRooms: []
-  }
-
+@observer
+class Rooms extends Component {
   handleChange(item, value) {
-    this.setState({...this.state, [item]: value}, () => {
-      let adults = this.state.adults
-      let children = this.state.children
+    if (item === 'adults_capacity') {
+      roomOrder.setAdultsCapacity(value)
+    } else if (item === 'children_capacity') {
+      roomOrder.setChildrenCapacity(value)
+    } else if (item === 'max_rooms') {
+      roomOrder.setMaxRooms(value)
+    } else {
+      roomOrder[item] = value
+    }
+    if (item === 'max_rooms') {
+      roomOrder.fetchRooms()
+    }
 
-      if (item === 'adults' || item === 'children') {
-        let availableRooms = []
-        let maxRooms = adults + children
-        let minRooms = Math.max(Math.ceil(adults / 2), Math.ceil(children / 2)) - 1
-        if (minRooms < 1) minRooms = 1
-        for (let i = minRooms; i <= maxRooms; i++) availableRooms.push({value: i, label: `${i} room(s)`})
-        
-        this.setState({availableRooms, availableBeds: [], beds: null, rooms: ''})
-      }
-  
-      if (item === 'rooms') {
-        let availableBeds = []
-        let minBeds = 1
-        let maxBeds = value
-        for (let i = minBeds; i <= maxBeds; i++) availableBeds.push({value: i, label: `${i} bed(s)`})
-        this.setState({availableBeds, beds: ''})
-      }
-
-      if (item === 'duration' || item === 'rooms') this.updateRoomData()
-    })
+    if (item === 'duration' || item ==='rooms') roomOrder.fetchRooms()
   }
 
   handleMuiChange(item, evt, value) {
-    this.setState({
-      [item]: value
-    }, this.updateRoomData)
-  }
-
-  updateRoomData = async () => {
-    let { checkIn, duration, rooms } = this.state
-    
-    if (!rooms) return
-    if (!checkIn) return
-    let startDate = moment(checkIn).format('YYYY-MM-DD')
-    let endDate = moment(checkIn).add(duration, 'days').format('YYYY-MM-DD')
-
-    let { data } = await axios.get(getEndPoint(`/rooms?start=${startDate}&end=${endDate}`))
-
-    if (!data.data) return
-    let roomList = data.data.map(d => ({...d, checked: false}))
-    this.setState({roomList})
+    roomOrder[item] = value
   }
 
   onSubmit = e => {
     e.preventDefault()
   }
-
-  addRoom = id => {
-    let { roomList, selectedRooms } = this.state
-
-    for (let room of roomList) if (room.id === id) {
-      selectedRooms.push(room)
-      selectedRooms = selectedRooms.slice()
-      this.setState({selectedRooms})
-      break
-    }
-  }
-
-  removeRoom = id => {
-    let { roomList, selectedRooms } = this.state
-
-    for (let i in roomList) if (roomList[i].id === id) {
-      selectedRooms.splice(i, 1)
-      selectedRooms = selectedRooms.slice()
-      this.setState({selectedRooms})
-      break
-    }
-  }
-
-  handleRoomChoosing(id, evt, value) {
-    if (value) return this.addRoom(id)
-    this.removeRoom(id)
-  }
-
+  
   renderRoomList() {
-    return this.state.roomList.map((data, i) => {
+    if (typeof roomOrder !== 'number')
+    return roomOrder.rooms.slice().map((data, i) => {
       return (
         <Checkbox 
           key={i}
-          value={data.checked}
-          onCheck={this.handleRoomChoosing.bind(this, i)}
+          checked={data.checked}
+          disabled={data.disabled}
+          onCheck={(evt, val) => roomOrder.toggleChooseRoom(data.id, val)}
           label={(
             <div className={styles.list} >
               <div className={styles['img-wrapper']} >
@@ -147,6 +83,8 @@ export default class Room extends Component {
   }
 
   render() {
+    for (let obj in roomOrder) obj
+    
     return (
       <Popup
         title="Order Room"
@@ -157,8 +95,8 @@ export default class Room extends Component {
           <div className={styles.container}>
             <DatePicker 
               floatingLabelText='Check In' 
-              onChange={this.handleMuiChange.bind(this, 'checkIn')} 
-              value={this.state.checkIn} 
+              onChange={this.handleMuiChange.bind(this, 'check_in_raw')} 
+              value={roomOrder.check_in_raw} 
               minDate={new Date(Date.now() + 86400000)}
               maxDate={new Date(Date.now() + 2592000000)}
               required 
@@ -168,24 +106,24 @@ export default class Room extends Component {
               label="Duration"
               onChange={this.handleChange.bind(this, 'duration')}
               source={availableDuration}
-              value={this.state.duration}
+              value={roomOrder.duration}
               required
             />
 
             <div className={styles.horizontal}>
               <Dropdown
                 label="Adult"
-                onChange={this.handleChange.bind(this, 'adults')}
+                onChange={this.handleChange.bind(this, 'adults_capacity')}
                 source={availableAdults}
-                value={this.state.adults}
+                value={roomOrder.adults_capacity}
                 required
               />
 
               <Dropdown
                 label="Children"
-                onChange={this.handleChange.bind(this, 'children')}
+                onChange={this.handleChange.bind(this, 'children_capacity')}
                 source={availableChildren}
-                value={this.state.children}
+                value={roomOrder.children_capacity}
                 required
               />
             </div>
@@ -193,19 +131,19 @@ export default class Room extends Component {
             <div className={styles.horizontal}>
               <Dropdown
                 label="Rooms"
-                onChange={this.handleChange.bind(this, 'rooms')}
-                source={this.state.availableRooms}
-                value={this.state.rooms}
-                disabled={this.state.rooms === null}
+                onChange={this.handleChange.bind(this, 'max_rooms')}
+                source={roomOrder.available_rooms.slice()}
+                value={roomOrder.max_rooms}
+                disabled={!roomOrder.max_rooms || roomOrder.max_rooms == 'null'}
                 required
               />
               
               <Dropdown
                 label="Extra Beds"
-                onChange={this.handleChange.bind(this, 'beds')}
-                source={this.state.availableBeds}
-                disabled={this.state.beds === null}
-                value={this.state.beds}
+                onChange={this.handleChange.bind(this, 'max_beds')}
+                source={roomOrder.available_beds.slice()}
+                disabled={!roomOrder.max_beds || roomOrder.max_beds == 'null'}
+                value={roomOrder.max_beds}
                 required
               />
             </div>
@@ -222,3 +160,5 @@ export default class Room extends Component {
     )
   }
 }
+
+export default Rooms
