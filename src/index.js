@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { ThemeProvider } from 'react-css-themr'
 import { observer } from 'mobx-react'
 import axios from 'axios'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 //CSS
 import theme from './assets/theme/theme.js'
@@ -25,9 +26,11 @@ axios.defaults.headers['Content-Type'] = 'application/json'
 class App extends Component {
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <AppRouter onlineStatus={onlineStatus} snackbar={snackbar} />
-      </ThemeProvider>
+      <MuiThemeProvider>
+        <ThemeProvider theme={theme}>
+          <AppRouter onlineStatus={onlineStatus} snackbar={snackbar} />
+        </ThemeProvider>
+      </MuiThemeProvider>
     )
   }
 }
