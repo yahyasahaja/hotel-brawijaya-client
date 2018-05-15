@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import DatePicker from 'react-toolbox/lib/date_picker'
 import Dropdown from 'react-toolbox/lib/dropdown'
 import { RadioGroup, RadioButton } from 'react-toolbox/lib/radio'
+import { observer } from 'mobx-react'
+import moment from 'moment'
 
 //STYLES
 import styles from './css/index-rooms.scss'
@@ -10,10 +12,14 @@ import styles from './css/index-rooms.scss'
 //COMPONENTS
 import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
 import ButtonBottom from '../../components/ButtonBottom'
+import RoomList from '../../components/RoomList'
+
+//STORE
+import { roomOrder } from '../../services/stores'
 
 //COMPONENT
-export default class Room extends Component {
-  
+@observer
+class Checkout extends Component {
   state = {
     name: 'Coffe Script',
     phone: '085851851276',
@@ -48,12 +54,12 @@ export default class Room extends Component {
 
             <div >
               <h5 className ={styles.judul}>Full Name</h5>
-              <h2 className ={styles.nilai}>{this.state.name}</h2>
+              <h2 className ={styles.nilai}>{roomOrder.customer_name}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Phone Number</h5>
-              <h2 className ={styles.nilai}>{this.state.phone}</h2>
+              <h2 className ={styles.nilai}>{roomOrder.phone}</h2>
             </div>
 
             <div className={styles.top}></div>
@@ -62,17 +68,17 @@ export default class Room extends Component {
           <div className={styles.horizontal}>
             <div >
               <h5 className ={styles.judul}>Check-in Date</h5>
-              <h2>{this.state.checkIn}</h2>
+              <h2>{moment(roomOrder.check_in).format('DD MMM YYYY')}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Check-out Date</h5>
-              <h2>{this.state.checkOut}</h2>
+              <h2>{moment(roomOrder.check_out).format('DD MMM YYYY')}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Duration</h5>
-              <h2>{this.state.duration} night(2)</h2>
+              <h2>{roomOrder.duration} night(2)</h2>
             </div>
           </div>
 
@@ -80,17 +86,17 @@ export default class Room extends Component {
           <div className={styles.horizontal}>
             <div >
               <h5 className ={styles.judul}>Adult</h5>
-              <h2>{this.state.adult}</h2>
+              <h2>{roomOrder.adults_capacity}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Child</h5>
-              <h2>{this.state.child}</h2>
+              <h2>{roomOrder.children_capacity}</h2>
             </div>
 
             <div >
               <h5 className ={styles.judul}>Room(s) & Extra Bed(s)</h5>
-              <h2>{this.state.room} room(s), {this.state.extraBed} Extra Bed(s)</h2>
+              <h2>{roomOrder.max_rooms} room(s), {roomOrder.max_beds} Extra Bed(s)</h2>
             </div>
           </div>
 
@@ -98,18 +104,12 @@ export default class Room extends Component {
             <div className={styles.empty}></div>
           </div>
           
-          <div className={styles.typeRoom} >
-            <img src={this.state.typeRoom[0]} className={styles.imageRoom} />
-            <div>
-              <h4>{this.state.typeRoom[1]}</h4>
-              <h3>Rp {this.state.typeRoom[2]}/night</h3>
-            </div>
-          </div>
+          <RoomList />
 
           <div className={styles.totalPrice}>
             <div >
               <h5 className ={styles.judul}>Total Price</h5>
-              <h2>Rp. {this.state.totalPrice}</h2>
+              <h2>Rp. {roomOrder.selected_rooms.reduce((prev, cur) => prev + cur.price, 0)}</h2>
             </div>
 
             <div className={styles.bottom}></div>
@@ -124,3 +124,5 @@ export default class Room extends Component {
     )
   }
 }
+
+export default Checkout

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Input from 'react-toolbox/lib/input'
+import { observer } from 'mobx-react'
 
 //STYLES
 import styles from './css/index.scss'
@@ -8,14 +9,19 @@ import styles from './css/index.scss'
 import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
 import ButtonBottom from '../../components/ButtonBottom'
 
-export default class componentName extends Component {
+//CONFIG
+import { roomOrder } from '../../services/stores'
+
+//COMPONENT
+@observer
+class Customer extends Component {
   state = {
     nama: '',
     phone: ''
   }
 
   handleChange = (name, value) => {
-    this.setState({...this.state, [name]: value});
+    roomOrder[name] = value
   }
 
   render() {
@@ -35,8 +41,8 @@ export default class componentName extends Component {
             label='Full Name' 
             name='nama'
             hint='Your Full Name' 
-            value={this.state.nama} 
-            onChange={this.handleChange.bind(this, 'nama')} 
+            value={roomOrder.customer_name} 
+            onChange={this.handleChange.bind(this, 'customer_name')} 
             maxLength={21}
             required />
 
@@ -45,8 +51,18 @@ export default class componentName extends Component {
             label='Phone Number' 
             name='phone'
             hint='08xxxxxxxxxx' 
-            value={this.state.phone} 
+            value={roomOrder.phone} 
             onChange={this.handleChange.bind(this, 'phone')} 
+            maxLength={12} 
+            required />
+
+          <Input 
+            type='text' 
+            label='National Identity Number (NIN)' 
+            name='nin'
+            hint='Your national identity number' 
+            value={roomOrder.customer_nin} 
+            onChange={this.handleChange.bind(this, 'customer_nin')} 
             maxLength={12} 
             required />
         </div>
@@ -58,3 +74,5 @@ export default class componentName extends Component {
     )
   }
 }
+
+export default Customer

@@ -18,6 +18,9 @@ class RoomOrder {
   @observable available_beds = []
   @observable rooms = []
   @observable isLoading = false
+  @observable customer_name = ''
+  @observable phone = ''
+  @observable customer_nin = ''
 
   @computed
   get check_out_raw() {
