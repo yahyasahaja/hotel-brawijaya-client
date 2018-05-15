@@ -136,8 +136,8 @@ class Rooms extends Component {
                 label="Rooms"
                 onChange={this.handleChange.bind(this, 'max_rooms')}
                 source={roomOrder.available_rooms.slice()}
-                value={roomOrder.max_rooms}
                 disabled={!roomOrder.max_rooms || roomOrder.max_rooms == 'null'}
+                value={roomOrder.max_rooms}
                 required
               />
               

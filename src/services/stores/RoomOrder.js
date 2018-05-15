@@ -41,7 +41,11 @@ class RoomOrder {
   get selected_rooms() {
     let rooms = this.rooms.slice()
     let res = []
-    for (let room of rooms) if (room.checked) res.push(room)
+    let extra_bed = this.max_beds
+    for (let room of rooms) if (room.checked) {
+      if (extra_bed-- != 0) room.extra_bed = 1
+      res.push({...room})
+    }
     
     return res
   }
@@ -108,6 +112,7 @@ class RoomOrder {
     for (let i = minBeds; i <= maxBeds; i++) available_beds.push({value: i, label: `${i} bed(s)`})
     this.available_beds = observable(available_beds)
     this.max_rooms = max_rooms
+    this.max_beds = minBeds
     this.fetchRooms()
   }
 
@@ -123,7 +128,7 @@ class RoomOrder {
       this.isLoading = true
       let { data } = await axios.get(getEndPoint(`/rooms?start=${check_in}&end=${check_out}`))
       this.isLoading = false
-      
+
       if (data.data)
         this.rooms = observable(data.data.map(d => ({...d, checked: false, disabled: false})))
     } catch (e) {
