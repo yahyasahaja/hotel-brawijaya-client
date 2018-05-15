@@ -7,6 +7,9 @@ import styles from './css/index.scss'
 import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
 import ButtonBottom from '../../components/ButtonBottom'
 
+//STORE
+import { roomOrder } from '../../services/stores'
+
 export default class Payment extends Component {
   state = {
     accountNumber: '165 524 789 26',
@@ -37,7 +40,7 @@ export default class Payment extends Component {
             <div className={styles.price} >
               Total Price
               <div className={styles.totalPrice}>
-                Rp. {this.state.totalPrice}
+                Rp. {roomOrder.total_price}
               </div>
             </div>
           </div>
