@@ -96,20 +96,29 @@ class RoomOrder {
     let children = this.children_capacity
     let available_rooms = []
     let maxRooms = adults + children
-    let minRooms = Math.max(Math.ceil(adults / 2), Math.ceil(children / 2)) - 1
-    if (minRooms < 1) minRooms = 1
-    for (let i = minRooms; i <= maxRooms; i++) available_rooms.push({value: i, label: `${i} room(s)`})
-    this.available_rooms = observable(available_rooms)
-    
-    this.setMaxRooms(maxRooms)
+    if(maxRooms<=10) {
+      let minRooms = Math.max(Math.ceil(adults / 2), Math.ceil(children / 2)) - 1
+      if (minRooms < 1) minRooms = 1
+      for (let i = minRooms; i <= maxRooms; i++) available_rooms.push({value: i, label: `${i} room(s)`})
+      this.available_rooms = observable(available_rooms)
+      
+      this.setMaxRooms(maxRooms)
+    } else{
+      this.setMaxRooms(10)
+    }
   }
 
   @action
   setMaxRooms(max_rooms) {
     let available_beds = []
-    let minBeds = 1
+    let minBeds = 0
     let maxBeds = max_rooms
-    for (let i = minBeds; i <= maxBeds; i++) available_beds.push({value: i, label: `${i} bed(s)`})
+    for (let i = minBeds; i <= maxBeds; i++) {
+      minBeds++
+      let j = 0
+      j = i+1
+      available_beds.push({value: j, label: `${i} bed(s)`})
+    } 
     this.available_beds = observable(available_beds)
     this.max_rooms = max_rooms
     this.max_beds = minBeds
