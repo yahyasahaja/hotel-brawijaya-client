@@ -68,7 +68,7 @@ class Invoice extends Component {
           </div>
         </div>
 
-        
+
         <div className={styles.horizontal}>
           <div >
             <h5 className ={styles.judul}>Adult</h5>
@@ -89,13 +89,13 @@ class Invoice extends Component {
         <div className={styles.horizontal}>
           <div className={styles.empty}></div>
         </div>
-        
+
         <RoomList />
 
         <div className={styles.totalPrice}>
           <div >
             <h5 className ={styles.judul}>Total Price</h5>
-            <h2>Rp. {roomOrder.total_price}</h2>
+            <h2>Rp. {roomOrder.reservation_data.total_price}</h2>
           </div>
 
           <div className={styles.bottom}></div>
@@ -113,7 +113,7 @@ class Invoice extends Component {
         anim={ANIMATE_HORIZONTAL}
       >
         {this.renderContent()}
-        <ButtonBottom 
+        <ButtonBottom
             onClick={this.handleClick}
             name="BACK TO HOME"
         />
