@@ -146,9 +146,21 @@ class RoomOrder {
       this.isLoading = true
       let { data } = await axios.get(getEndPoint(`/rooms?start=${check_in}&end=${check_out}`))
       this.isLoading = false
+      
+      let max_rooms = this.max_rooms
+      if (data.data) 
+        this.rooms = observable(data.data.map(d => {
+          let checked_room = this.getRoomById(d.id)
+          let checked = false
+          let disabled = false
+          if (checked_room && max_rooms > 0) {
+            checked = checked_room.checked
+            if (checked) max_rooms--
+          }
 
-      if (data.data)
-        this.rooms = observable(data.data.map(d => ({...d, checked: false, disabled: false})))
+          if (!checked && max_rooms <= 0) disabled = true
+          return {...d, checked, disabled}
+        }))
     } catch (e) {
       console.log(e)
     }
