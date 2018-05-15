@@ -32,12 +32,12 @@ class RoomOrder {
 
   @computed
   get total_price() {
-    return this.selected_rooms.reduce((prev, cur) => prev + cur.price, 0)
+    return this.selected_rooms.reduce((prev, cur) => prev + cur.price, 0)*this.duration
   }
 
   @computed
   get check_out_raw() {
-    if (this.duration) 
+    if (this.duration)
       return moment(this.check_in).add(this.duration, 'days').toDate()
   }
 
@@ -63,7 +63,7 @@ class RoomOrder {
       else room.extra_bed = 0
       res.push({...room})
     }
-    
+
     return res
   }
 
@@ -71,7 +71,7 @@ class RoomOrder {
   get selected_rooms_length() {
     return this.selected_rooms.length
   }
-  
+
   @action
   getRoomById(id) {
     let rooms = this.rooms.slice()
@@ -85,7 +85,7 @@ class RoomOrder {
     if (isChosen && this.selected_rooms_length >= this.max_rooms) return
 
     room.checked = isChosen
-    
+
     if (this.selected_rooms_length >= this.max_rooms) {
       let rooms = this.rooms.slice()
       for (let room of rooms) if (!room.checked) room.disabled = true
@@ -94,7 +94,7 @@ class RoomOrder {
       for (let room of rooms) room.disabled = false
     }
   }
-  
+
   @action
   setAdultsCapacity(arg) {
     this.adults_capacity = arg
@@ -106,7 +106,7 @@ class RoomOrder {
     this.children_capacity = arg
     this.setAvailableRooms()
   }
-  
+
   @action
   setAvailableRooms() {
     let adults = this.adults_capacity
@@ -118,7 +118,7 @@ class RoomOrder {
     if (minRooms < 1) minRooms = 1
     for (let i = minRooms; i <= maxRooms; i++) available_rooms.push({value: i, label: `${i} room(s)`})
     this.available_rooms = observable(available_rooms)
-    
+
     this.setMaxRooms(minRooms)
   }
 
@@ -132,7 +132,7 @@ class RoomOrder {
       let j = 0
       j = i+1
       available_beds.push({value: j, label: `${i} bed(s)`})
-    } 
+    }
     this.available_beds = observable(available_beds)
     this.max_rooms = max_rooms
     this.max_beds = minBeds
@@ -142,18 +142,18 @@ class RoomOrder {
   @action
   async fetchRooms() {
     let { check_in, duration, max_rooms, check_out } = this
-    
+
     if (!max_rooms || max_rooms == 'null') return
     if (!duration || duration == 'null') return
     if (!check_in || !check_out) return
-    
+
     try {
       this.isLoading = true
       let { data } = await axios.get(getEndPoint(`/rooms?start=${check_in}&end=${check_out}`))
       this.isLoading = false
-      
+
       let max_rooms = this.max_rooms
-      if (data.data) 
+      if (data.data)
         this.rooms = observable(data.data.map(d => {
           let checked_room = this.getRoomById(d.id)
           let checked = false
@@ -174,8 +174,8 @@ class RoomOrder {
   @action
   async reservation() {
     let body = objectPick(this, [
-      'check_in', 
-      'check_out', 
+      'check_in',
+      'check_out',
       'customer_name',
       'customer_nin',
       'phone',
