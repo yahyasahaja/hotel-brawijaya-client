@@ -94,7 +94,7 @@ class Checkout extends Component {
 
         <div className={styles.totalPrice}>
           <div >
-            <h5 className ={styles.judul}>Total Price</h5>
+            <h5 className ={styles.judul}>Estimated Total Price</h5>
             <h2>Rp. {roomOrder.total_price}</h2>
           </div>
 

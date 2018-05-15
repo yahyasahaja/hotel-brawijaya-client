@@ -95,7 +95,7 @@ class Rooms extends Component {
       <Popup
         title="Order Room"
         backLink="/home"
-        anim={ANIMATE_HORIZONTAL}
+        // anim={ANIMATE_HORIZONTAL}
       >
         <form onSubmit={this.onSubmit} >
           <div className={styles.container}>
@@ -158,6 +158,7 @@ class Rooms extends Component {
               {this.renderRoomList()}
             </div>
           </div>
+          
           <ButtonBottom 
             link="/order/customer"
             name="GO"

@@ -32,7 +32,7 @@ class Customer extends Component {
       <Popup
         title="Customer Information"
         backLink="/order/rooms"
-        anim={ANIMATE_HORIZONTAL}
+        // anim={ANIMATE_HORIZONTAL}
       >
         <div className={styles.container} >
           <h3>
@@ -61,12 +61,12 @@ class Customer extends Component {
 
           <Input 
             type='text' 
-            label='National Identity Number (NIN)' 
+            label='Social Security Number (SSN)' 
             name='nin'
-            hint='Your national identity number' 
+            hint='Your Social Security Number' 
             value={roomOrder.customer_nin} 
             onChange={this.handleChange.bind(this, 'customer_nin')} 
-            maxLength={12} 
+            maxLength={18} 
             required />
         </div>
         <ButtonBottom 

@@ -22,8 +22,8 @@ export default class Payment extends Component {
       <div>
         <Popup
           title="Payment"
-          backLink="/order/checkout"
-          anim={ANIMATE_HORIZONTAL}
+          backLink="/home"
+          // anim={ANIMATE_HORIZONTAL}
         >
           <div className={styles.container} >
             <h3>Please transfer to the following <br/>bank account number.</h3>
@@ -40,7 +40,7 @@ export default class Payment extends Component {
             <div className={styles.price} >
               Total Price
               <div className={styles.totalPrice}>
-                Rp. {roomOrder.total_price}
+                Rp. {roomOrder.reservation_data.total_price}
               </div>
             </div>
           </div>
