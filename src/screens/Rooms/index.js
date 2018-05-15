@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import DatePicker from 'material-ui/DatePicker'
 import Dropdown from 'react-toolbox/lib/dropdown'
+import Input from 'react-toolbox/lib/input'
 import { RadioGroup, RadioButton } from 'react-toolbox/lib/radio'
 import Checkbox from 'material-ui/Checkbox'
 import axios from 'axios'
@@ -24,10 +25,10 @@ const availableDuration = []
 for (let i = 1; i <= 30; i++) availableDuration.push({value: i, label: `${i} night(s)`})
 
 const availableAdults = []
-for (let i = 1; i <= 15; i++) availableAdults.push({value: i, label: `${i} guest(s)`})
+for (let i = 1; i <= 10; i++) availableAdults.push({value: i, label: `${i} guest(s)`})
 
 const availableChildren = []
-for (let i = 1; i <= 15; i++) availableChildren.push({value: i, label: `${i} child(s)`})
+for (let i = 1; i <= 20; i++) availableChildren.push({value: i, label: `${i} child(s)`})
 window.moment = moment
 
 //COMPONENT
@@ -49,10 +50,12 @@ class Rooms extends Component {
 
   handleMuiChange(item, evt, value) {
     roomOrder[item] = value
+    roomOrder.fetchRooms()
   }
 
   onSubmit = e => {
     e.preventDefault()
+    
   }
   
   renderRoomList() {
@@ -111,6 +114,7 @@ class Rooms extends Component {
               source={availableDuration}
               value={roomOrder.duration}
               required
+              readOnly={false}
             />
 
             <div className={styles.horizontal}>
@@ -120,6 +124,7 @@ class Rooms extends Component {
                 source={availableAdults}
                 value={roomOrder.adults_capacity}
                 required
+                readOnly={false}
               />
 
               <Dropdown
@@ -127,7 +132,6 @@ class Rooms extends Component {
                 onChange={this.handleChange.bind(this, 'children_capacity')}
                 source={availableChildren}
                 value={roomOrder.children_capacity}
-                required
               />
             </div>
 
@@ -145,7 +149,7 @@ class Rooms extends Component {
                 label="Extra Beds"
                 onChange={this.handleChange.bind(this, 'max_beds')}
                 source={roomOrder.available_beds.slice()}
-                disabled={!roomOrder.max_beds || roomOrder.max_beds == 'null'}
+                disabled={roomOrder.max_beds == null || roomOrder.max_beds == 'null'}
                 value={roomOrder.max_beds}
                 required
               />

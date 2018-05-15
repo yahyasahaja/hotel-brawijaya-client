@@ -7,16 +7,20 @@
   background-color: black;
   height: 52px;
   max-height: 52px;
+  z-index: 100;
   margin-left: -10px;
-  z-index: 99;
+  transition: .3s;
 
-  .go {
-    color: white;
-    font-size: 15px;
-    margin-top: 10px;
-    font-weight: 300;
-    position: relative;
-    text-align: center;
-    letter-spacing: 1px;
+  color: white;
+  font-size: 15px;
+  margin-top: 10px;
+  font-weight: 300;
+  text-align: center;
+  letter-spacing: 1px;
+  cursor: pointer;
+
+  &:active {
+    opacity: .3;
+    transition: .1s;
   }
 }

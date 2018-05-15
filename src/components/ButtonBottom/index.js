@@ -1,18 +1,20 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import styles from './css/index.scss'
 
-export default class ButtonBottom extends Component {
+class ButtonBottom extends Component {
   render () {
+    let { link, onClick } = this.props
     return (
-      <Fragment>
-        <Link to={this.props.link} >
-          <div className={styles.container}>
-            <div className={styles.go} >{this.props.name}</div>
-          </div>
-        </Link>
-      </Fragment>
+      <button type="submit" className={styles.container} onClick={() => {
+        link && this.props.history.push(this.props.link)
+        onClick && onClick()
+      }} >
+        {this.props.name}
+      </button>
     ) 
   }
 }
+
+export default withRouter(ButtonBottom)

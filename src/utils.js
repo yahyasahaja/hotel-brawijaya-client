@@ -6,6 +6,12 @@ export const matchProps = (next, current, context) => {
   return next[context] === current[context]
 }
 
+export const objectPick = function(sourceObject, keys) {
+  var newObject = {};
+  keys.forEach(function(key) { newObject[key] = sourceObject[key]; });
+  return newObject;
+}
+
 export const getSubscription = async () => {
   let reg, subscription
 
@@ -57,4 +63,5 @@ export default {
   getSubscription,
   convertStatus,
   convertCountryCurrency,
+  objectPick,
 }

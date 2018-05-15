@@ -6,18 +6,34 @@ import axios from 'axios'
 //CONFIG
 import {getEndPoint} from '../../config'
 
+//UTILS
+import { objectPick } from '../../utils'
+
+//STORE
+import Snackbar from './Snackbar'
+
 //STORE
 class RoomOrder {
   @observable check_in_raw = new Date(Date.now() + 86400000)
   @observable duration = ''
-  @observable adults_capacity = ''
-  @observable children_capacity = ''
+  @observable adults_capacity = 0
+  @observable children_capacity = 0
   @observable max_rooms = null
   @observable max_beds = null
   @observable available_rooms = []
   @observable available_beds = []
   @observable rooms = []
   @observable isLoading = false
+  @observable customer_name = ''
+  @observable phone = ''
+  @observable customer_nin = ''
+  @observable isLoadingReservation = false
+  @observable reservation_data = {}
+
+  @computed
+  get total_price() {
+    return this.selected_rooms.reduce((prev, cur) => prev + cur.price, 0)
+  }
 
   @computed
   get check_out_raw() {
@@ -44,6 +60,7 @@ class RoomOrder {
     let extra_bed = this.max_beds
     for (let room of rooms) if (room.checked) {
       if (extra_bed-- != 0) room.extra_bed = 1
+      else room.extra_bed = 0
       res.push({...room})
     }
     
@@ -96,16 +113,13 @@ class RoomOrder {
     let children = this.children_capacity
     let available_rooms = []
     let maxRooms = adults + children
-    if(maxRooms<=10) {
-      let minRooms = Math.max(Math.ceil(adults / 2), Math.ceil(children / 2)) - 1
-      if (minRooms < 1) minRooms = 1
-      for (let i = minRooms; i <= maxRooms; i++) available_rooms.push({value: i, label: `${i} room(s)`})
-      this.available_rooms = observable(available_rooms)
-      
-      this.setMaxRooms(maxRooms)
-    } else{
-      this.setMaxRooms(10)
-    }
+    if (maxRooms > 10) maxRooms = 10
+    let minRooms = Math.max(Math.ceil(adults / 2), Math.ceil(children / 2)) - 1
+    if (minRooms < 1) minRooms = 1
+    for (let i = minRooms; i <= maxRooms; i++) available_rooms.push({value: i, label: `${i} room(s)`})
+    this.available_rooms = observable(available_rooms)
+    
+    this.setMaxRooms(minRooms)
   }
 
   @action
@@ -137,12 +151,55 @@ class RoomOrder {
       this.isLoading = true
       let { data } = await axios.get(getEndPoint(`/rooms?start=${check_in}&end=${check_out}`))
       this.isLoading = false
+      
+      let max_rooms = this.max_rooms
+      if (data.data) 
+        this.rooms = observable(data.data.map(d => {
+          let checked_room = this.getRoomById(d.id)
+          let checked = false
+          let disabled = false
+          if (checked_room && max_rooms > 0) {
+            checked = checked_room.checked
+            if (checked) max_rooms--
+          }
 
-      if (data.data)
-        this.rooms = observable(data.data.map(d => ({...d, checked: false, disabled: false})))
+          if (!checked && max_rooms <= 0) disabled = true
+          return {...d, checked, disabled}
+        }))
     } catch (e) {
       console.log(e)
     }
+  }
+
+  @action
+  async reservation() {
+    let body = objectPick(this, [
+      'check_in', 
+      'check_out', 
+      'customer_name',
+      'customer_nin',
+      'phone',
+      'children_capacity'
+    ])
+
+    body.adult_capacity = this.adults_capacity
+    body.rooms = this.selected_rooms.map(d => objectPick(d, ['id', 'name', 'type', 'extra_bed', 'price']))
+    let res
+
+    try {
+      this.isLoadingReservation = true
+      let { data } = await axios.post(getEndPoint('/reservations'), body)
+      console.log(data)
+      Snackbar.show('Reservation Successful')
+      this.reservation_data = observable(data.data)
+      res = true
+    } catch(e) {
+      Snackbar.show(e.response.data.errors[0].message)
+      res = false
+    }
+
+    this.isLoadingReservation = false
+    return res
   }
 }
 
