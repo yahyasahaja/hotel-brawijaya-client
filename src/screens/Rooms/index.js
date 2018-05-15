@@ -213,10 +213,12 @@ export default class Room extends Component {
               {this.renderRoomList()}
             </div>
           </div>
+          
           <ButtonBottom 
             link="/order/customer"
             name="GO"
-          />
+          />   
+          
         </form>
       </Popup>
     )
