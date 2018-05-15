@@ -22,7 +22,7 @@ export default class Payment extends Component {
       <div>
         <Popup
           title="Payment"
-          backLink="/order/checkout"
+          backLink="/home"
           // anim={ANIMATE_HORIZONTAL}
         >
           <div className={styles.container} >
