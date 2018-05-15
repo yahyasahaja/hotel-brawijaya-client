@@ -7,6 +7,7 @@ import Checkbox from 'material-ui/Checkbox'
 import axios from 'axios'
 import moment from 'moment'
 import { observer } from 'mobx-react'
+import CircularProgress from 'material-ui/CircularProgress'
 
 //STYLES
 import styles from './css/index-rooms.scss'
@@ -42,9 +43,6 @@ class Rooms extends Component {
     } else {
       roomOrder[item] = value
     }
-    if (item === 'max_rooms') {
-      roomOrder.fetchRooms()
-    }
 
     if (item === 'duration' || item ==='rooms') roomOrder.fetchRooms()
   }
@@ -58,7 +56,12 @@ class Rooms extends Component {
   }
   
   renderRoomList() {
-    if (typeof roomOrder !== 'number')
+    if (roomOrder.isLoading) return (
+      <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}} >
+        <CircularProgress />
+      </div>
+    )
+    
     return roomOrder.rooms.slice().map((data, i) => {
       return (
         <Checkbox 

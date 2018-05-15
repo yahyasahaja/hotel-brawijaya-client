@@ -17,6 +17,7 @@ class RoomOrder {
   @observable available_rooms = []
   @observable available_beds = []
   @observable rooms = []
+  @observable isLoading = false
 
   @computed
   get check_out_raw() {
@@ -107,6 +108,7 @@ class RoomOrder {
     for (let i = minBeds; i <= maxBeds; i++) available_beds.push({value: i, label: `${i} bed(s)`})
     this.available_beds = observable(available_beds)
     this.max_rooms = max_rooms
+    this.fetchRooms()
   }
 
   @action
@@ -117,11 +119,16 @@ class RoomOrder {
     if (!duration || duration == 'null') return
     if (!check_in || !check_out) return
     
-    
-    let { data } = await axios.get(getEndPoint(`/rooms?start=${check_in}&end=${check_out}`))
-
-    if (data.data)
-      this.rooms = observable(data.data.map(d => ({...d, checked: false, disabled: false})))
+    try {
+      this.isLoading = true
+      let { data } = await axios.get(getEndPoint(`/rooms?start=${check_in}&end=${check_out}`))
+      this.isLoading = false
+      
+      if (data.data)
+        this.rooms = observable(data.data.map(d => ({...d, checked: false, disabled: false})))
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
