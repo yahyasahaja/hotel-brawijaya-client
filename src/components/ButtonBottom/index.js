@@ -8,8 +8,8 @@ class ButtonBottom extends Component {
     let { link, onClick } = this.props
     return (
       <button type="submit" className={styles.container} onClick={() => {
-        link && this.props.history.push(this.props.link)
         onClick && onClick()
+        link && this.props.history.push(this.props.link)
       }} >
         {this.props.name}
       </button>

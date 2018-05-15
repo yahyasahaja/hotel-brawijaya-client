@@ -18,7 +18,7 @@ import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
 import ButtonBottom from '../../components/ButtonBottom'
 
 //STORE
-import { roomOrder } from '../../services/stores'
+import { roomOrder, step } from '../../services/stores'
 
 //INNER CONFIG
 const availableDuration = []
@@ -161,6 +161,7 @@ class Rooms extends Component {
           <ButtonBottom 
             link="/order/customer"
             name="GO"
+            onClick={() => step.currentStep === 1 ? step.inc() : 0}
           />
         </form>
       </Popup>

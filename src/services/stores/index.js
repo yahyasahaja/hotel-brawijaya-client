@@ -4,6 +4,7 @@ import snackbar from './Snackbar'
 import dialog from './Dialog'
 import appStack from './AppStack'
 import roomOrder from './RoomOrder'
+import step from './Step'
 
 export { 
   onlineStatus,
@@ -12,6 +13,7 @@ export {
   dialog,
   appStack,
   roomOrder,
+  step,
 }
 
 export default { 
@@ -21,4 +23,5 @@ export default {
   dialog,
   appStack,
   roomOrder,
+  step,
 }

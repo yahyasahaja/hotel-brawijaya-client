@@ -10,11 +10,14 @@ import Popup, { ANIMATE_HORIZONTAL } from '../../components/Popup'
 import ButtonBottom from '../../components/ButtonBottom'
 
 //CONFIG
-import { roomOrder } from '../../services/stores'
+import { roomOrder, step } from '../../services/stores'
 
 //COMPONENT
 @observer
 class Customer extends Component {
+  componentDidMount() {
+  }
+
   state = {
     nama: '',
     phone: ''
@@ -69,6 +72,7 @@ class Customer extends Component {
         <ButtonBottom 
             link="/order/checkout"
             name="GO"
+            onClick={() => step.currentStep === 2 ? step.inc() : 0}
         />
       </Popup>
     )
